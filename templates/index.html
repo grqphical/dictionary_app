@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Dictionary App{% endblock %}
+
+{% block contents %}
+<nav class="navbar" hx-boost="true">
+    <a href="/" class="title"><img src="/static/images/icon.png" width="48" height="48" style='vertical-align:middle;'>Dictionary App</a>
+</nav>
+
+
+<form class="search" hx-get="/word" hx-target="#result">
+    <h2>Search For A Word's Definition</h2>
+    <div class="search-field">
+        <input type="text" name="word" class="search-box" placeholder="Search" _="on htmx:validation:validate
+                                                                                    if my.value == ''
+                                                                                        call me.setCustomValidity('Please enter a value')">
+        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+    
+</form>
+
+<div id="result">
+    
+</div>
+{% endblock %}

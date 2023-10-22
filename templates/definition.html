@@ -1,0 +1,27 @@
+<div class="definition-container box">
+    <h1 class="is-size-1">{{ result.Word }}</h1>
+    <div class="phonetics">
+        {% for phonetic in result.Phonetics %}
+        <div class="phonetic">
+            <p><b>{{ phonetic.Text }}</b></p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="meanings">
+        {% for meaning in result.Meanings %}
+        <div class="meaning">
+            <p><em>{{ meaning.PartOfSpeech }}</em></p>
+            <div class="definitions">
+                {% for definition in meaning.Definitions %}
+                <div class="definition tabbed">
+                    <p>{{ definition.Definition }}</p>
+                    {% if definition.Example != "" %}
+                    <p class="tabbed"><em>Example: {{ definition.Example }}</em></p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
