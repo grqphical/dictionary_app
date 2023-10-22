@@ -27,7 +27,8 @@ type DictionaryResult struct {
 	Meanings  []Meaning  `json:"meanings"`
 }
 
-// / Get the definition from the dictionary API and convert it into a GO struct
+// Get the definition from the dictionary API and convert it into a Go struct
+// Also cache the word and result so we don't need to call the API again
 func GetDefinition(word string) (DictionaryResult, error) {
 	resp, err := http.Get(fmt.Sprintf("https://api.dictionaryapi.dev/api/v2/entries/en/%s", word))
 
