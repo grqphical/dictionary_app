@@ -5,7 +5,10 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/session"
 	"github.com/gofiber/template/django/v3"
 )
 
@@ -48,11 +51,9 @@ func main() {
 	engine := django.New("./templates", ".html")
 
 	// Create a new instance of our cache
-	var err error
-	cache, err = CacheFromFile(CACHE_FILE)
-	if err != nil {
-		log.Println("Failed to load cache from disk. Resulting to in-memory cache")
-	}
+	cache = NewCache()
+
+	store := session.New()
 
 	app := fiber.New(
 		fiber.Config{
@@ -62,6 +63,13 @@ func main() {
 		Format:     "[${time}] ${status} - ${method} ${path}\n",
 		TimeFormat: time.DateTime,
 		TimeZone:   "Canada/Vancouver",
+	}))
+	app.Use(csrf.New(csrf.Config{
+		Session: store,
+	}))
+	app.Use(favicon.New(favicon.Config{
+		File: "./static/images/icon.png",
+		URL:  "/static/images/icon.png",
 	}))
 
 	app.Get("/", Index)
